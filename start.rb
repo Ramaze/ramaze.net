@@ -5,8 +5,8 @@ require 'haml' # not sure why i need this.
 require 'maruku'
 require 'builder'
 
-require 'controller/init'
-require 'vendor/feed_convert'
+require __DIR__ 'controller/init'
+require __DIR__ 'vendor/feed_convert'
 
 THEME = 'espresso_libre'
 

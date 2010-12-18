@@ -4,5 +4,5 @@ class Controller < Ramaze::Controller
   engine :Haml
 end
 
-require 'controller/main'
-require 'controller/css'
+require __DIR__ 'main'
+require __DIR__ 'css'

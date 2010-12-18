@@ -9,7 +9,7 @@ class MainController < Controller
       { :text => 'Features',  :href => '/features',                        },
       { :text => 'Learn',     :href => '/learn',                           },
       { :text => 'Community', :href => '/community',                       },
-      { :text => 'Code',      :href => 'http://github.com/manveru/ramaze', },
+      { :text => 'Code',      :href => 'https://github.com/ramaze/ramaze', },
     ]
     item = @menu.find { |item| item[ :href ] == "/#{@current}" } || @menu[ 0 ]
     p :current => @current
