@@ -5,7 +5,7 @@ require 'ramaze'
 require 'haml' # not sure why i need this.
 require 'maruku'
 
-require 'controller/init'
+require __DIR__ 'controller/init'
 
 THEME = 'espresso_libre'
 
