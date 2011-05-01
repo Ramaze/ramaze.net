@@ -1,0 +1,176 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Helpers &mdash; Ramaze v2011.01.30 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2011.01.30',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Ramaze v2011.01.30 documentation" href="../index.html" />
+    <link rel="next" title="CSRF Helper" href="csrf.html" />
+    <link rel="prev" title="Views" href="../general/views.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="csrf.html" title="CSRF Helper"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="../general/views.html" title="Views"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="helpers">
+<h1>Helpers<a class="headerlink" href="#helpers" title="Permalink to this headline">¶</a></h1>
+<p>Helpers are simple modules that can be used in controllers to prevent developers from
+having to write the same code over and over again. There&#8217;s no actual definition of how
+helpers should be used and what they should do but the general idea is quite simple, all
+logic that may be shared among controllers should go in a helper. For example, Ramaze ships
+with it&#8217;s own layout helper that adds a method &#8220;set_layout&#8221; (see the
+<a class="reference internal" href="../general/views.html"><em>Views</em></a> chapter).</p>
+<p>In order to use a helper there are a few guidelines it should follow. The most important
+guideline (or rule) is that it should be declared under the Ramaze::Helper namespace. Say
+your helper is called &#8220;Cake&#8221; this would result in Ramaze::Helper::Cake as the full name.
+The second rule/guideline is that helpers should be placed in the &#8220;helper&#8221; directory of
+your Ramaze application (or any other directory added to the list of helper paths). This
+is required in order to load helpers the ramaze way, otherwise you&#8217;ll have to manually
+load each helper.</p>
+<div class="section" id="loading-helpers">
+<h2>Loading Helpers<a class="headerlink" href="#loading-helpers" title="Permalink to this headline">¶</a></h2>
+<p>Loading helpers the Ramaze way is pretty easy and can be done using the method helper():</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Blogs</span> <span class="o">&lt;</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Controller</span>
+  <span class="n">helper</span> <span class="ss">:cake</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>This method can load multiple helpers in a single call as well:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Blogs</span> <span class="o">&lt;</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Controller</span>
+  <span class="n">helper</span> <span class="ss">:cake</span><span class="p">,</span> <span class="ss">:pie</span><span class="p">,</span> <span class="ss">:candy</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>If you have your helper located somewhere else or don&#8217;t want to use the helper() method
+you can just include each helper the regular way:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Blogs</span> <span class="o">&lt;</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Controller</span>
+  <span class="kp">include</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Helper</span><span class="o">::</span><span class="no">Cake</span>
+  <span class="kp">include</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Helper</span><span class="o">::</span><span class="no">Pie</span>
+  <span class="n">inlcude</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Helper</span><span class="o">::</span><span class="no">Candy</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>As you can see this requires more lines of code and thus it&#8217;s recommended to load all
+helpers the Ramaze way.</p>
+</div>
+<div class="section" id="available-helpers">
+<h2>Available Helpers<a class="headerlink" href="#available-helpers" title="Permalink to this headline">¶</a></h2>
+<p>Ramaze ships with a pretty large list of available helpers. At the time of writing (April
+2011) Ramaze ships with a total of 29 helpers available. These include modules for CSRF
+protection, user authentication, pagination and so on. A full list of all helpers can be
+found <a class="reference external" href="https://github.com/Ramaze/ramaze/tree/master/lib/ramaze/helper">here</a>.</p>
+</div>
+<div class="section" id="detailed-guide">
+<h2>Detailed Guide<a class="headerlink" href="#detailed-guide" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="csrf.html">CSRF Helper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="csrf.html#using-the-helper">Using the Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csrf.html#setting-tokens">Setting Tokens</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blueform.html">Blueform Helper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blueform.html#displaying-errors">Displaying Errors</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Helpers</a><ul>
+<li><a class="reference internal" href="#loading-helpers">Loading Helpers</a></li>
+<li><a class="reference internal" href="#available-helpers">Available Helpers</a></li>
+<li><a class="reference internal" href="#detailed-guide">Detailed Guide</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../general/views.html"
+                        title="previous chapter">Views</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="csrf.html"
+                        title="next chapter">CSRF Helper</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/helpers/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="csrf.html" title="CSRF Helper"
+             >next</a></li>
+        <li class="right" >
+          <a href="../general/views.html" title="Views"
+             >previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Michael Fellinger, Yorick Peterse.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

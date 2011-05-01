@@ -1,0 +1,280 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Middlewares &mdash; Ramaze v2011.01.30 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2011.01.30',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Ramaze v2011.01.30 documentation" href="../index.html" />
+    <link rel="next" title="Routes" href="routes.html" />
+    <link rel="prev" title="Blueform Helper" href="../helpers/blueform-helper.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="routes.html" title="Routes"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="../helpers/blueform-helper.html" title="Blueform Helper"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="middlewares">
+<h1>Middlewares<a class="headerlink" href="#middlewares" title="Permalink to this headline">¶</a></h1>
+<p>Ramaze is a Rack based framework and thus allows you to create so called middlewares.
+Middlewares are basically classes that can be used to intercept the communication between
+Rack, Ramaze and the visitor as well as providing common functionality such as logging of
+requests. The flow of a Rack request (including middlewares) looks as following:</p>
+<div class="highlight-python"><pre>Request --&gt; Server (Thin, Unicorn, etc) --&gt; Rack --&gt; Middleware(s) --&gt; Ramaze --&gt; Controller</pre>
+</div>
+<p>Say we want to ban a number of users by IP, there are two ways of doing this. The first
+way of doing this would be to validate the user&#8217;s IP in all controllers (or in a base
+controller). However, this approach will eventually require quite a bit of code. The
+easier method, as you may have guessed, is using a Rack middleware. Since middlewares are
+executed for each request this means we&#8217;ll only have to add our code once and we&#8217;re good
+to go.</p>
+<div class="section" id="building-the-middleware">
+<h2>Building the Middleware<a class="headerlink" href="#building-the-middleware" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s begin building our IP blacklist. For the sake of simplicity we&#8217;ll hardcode the
+blocked IPs in an array stored inside our middleware. Go ahead and create a file called
+&#8220;banlist.rb&#8221; and save it somewhere in your application (and require it!). We&#8217;ll begin with
+our basic skeleton that looks like the following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Banlist</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="vi">@app</span> <span class="o">=</span> <span class="n">app</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>First we declare a new class called &#8220;Banlist&#8221;. Followed by this is our construct method
+that takes a single argument: an object containing the details of our Ramaze application.
+Next up is the call() method which also takes a single argument but this time it&#8217;s an
+object containing our environment details such as the POST and GET data.</p>
+<p>Let&#8217;s add a list of blocked IPs to our middleware. Modify the initialize() method so that
+it looks like the following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+  <span class="vi">@app</span>    <span class="o">=</span> <span class="n">app</span>
+  <span class="vi">@banned</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;189.3.0.116&#39;</span><span class="p">,</span> <span class="s1">&#39;193.159.244.70&#39;</span><span class="p">,</span> <span class="s1">&#39;193.46.236.*&#39;</span><span class="o">]</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>We now have 3 blocked IPs. Time to actually implement the blocking mechanism in our call()
+method. Modify it as following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+  <span class="k">if</span> <span class="vi">@banned</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;REMOTE_ADDR&#39;</span><span class="o">]</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;You have been banned!&quot;</span>
+  <span class="k">else</span>
+    <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>So what did we do? Quite simple actually, we extracted the user&#8217;s IP by calling
+env[&#8216;REMOTE_ADDR&#8217;] and checked if it&#8217;s stored in the &#64;banned instance variable. If it is
+we&#8217;ll block the user and show a message &#8220;You have been banned&#8221;. Our final middleware looks
+like the following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Banlist</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="vi">@app</span>    <span class="o">=</span> <span class="n">app</span>
+    <span class="vi">@banned</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;189.3.0.116&#39;</span><span class="p">,</span> <span class="s1">&#39;193.159.244.70&#39;</span><span class="p">,</span> <span class="s1">&#39;193.46.236.10&#39;</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">if</span> <span class="vi">@banned</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">env</span><span class="o">[</span><span class="s1">&#39;REMOTE_ADDR&#39;</span><span class="o">]</span><span class="p">)</span>
+      <span class="k">return</span> <span class="s2">&quot;You have been banned!&quot;</span>
+    <span class="k">else</span>
+      <span class="vi">@app</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-middlewares">
+<h2>Using Middlewares<a class="headerlink" href="#using-middlewares" title="Permalink to this headline">¶</a></h2>
+<p>Now it&#8217;s time to tell Ramaze to actually use the middleware. This can be done by calling
+Ramaze#middleware!. This method takes a block that defines what middlewares to use for
+what environment. Assuming we&#8217;re dunning in &#8220;dev&#8221; mode our call will look like the
+following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Ramaze</span><span class="o">.</span><span class="n">middleware!</span> <span class="ss">:dev</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="no">Banlist</span><span class="p">)</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="no">Ramaze</span><span class="o">::</span><span class="no">AppMap</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>When calling the middleware! method it&#8217;s first argument should be a development mode to
+use (Ramaze comes with &#8220;live&#8221; and &#8220;dev&#8221;), the method also accepts a block which is used
+to determine what middlewares to use and to run Ramaze (Ramaze::AppMap). In this block
+you can call two methods, use() and run(). The first method is used to add a middleware
+and configure it, the run() method is used to determine what class is used to run our
+Ramaze application. Unless you&#8217;re using a custom class this should always be set to
+Ramaze::AppMap.</p>
+</div>
+<div class="section" id="example-configuration">
+<h2>Example Configuration<a class="headerlink" href="#example-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="c1">##</span>
+<span class="c1"># All Rack middlewares should go in a block like the one below. Different combinations</span>
+<span class="c1"># can be used for different versions by setting the first argument of the middleware!</span>
+<span class="c1"># method to a symbol containing the name of the environment (e.g. :live).</span>
+<span class="c1">#</span>
+<span class="c1"># For development purposes we&#39;ll be loading various middlewares to make it easier to</span>
+<span class="c1"># detect errors, reloading the code and so on.</span>
+<span class="c1">#</span>
+<span class="no">Ramaze</span><span class="o">.</span><span class="n">middleware!</span> <span class="ss">:dev</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+  <span class="c1">##</span>
+  <span class="c1"># Rack::Lint is used to validate all code according to the Rack specification.</span>
+  <span class="c1"># It&#39;s not recommended to use this middleware in a production environment as it will</span>
+  <span class="c1"># slow your application down a bit.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Lint</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Rack::CommonLogger is used to log requests in an Apache like format.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">CommonLogger</span><span class="p">,</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Log</span><span class="o">::</span><span class="no">RotatingInformer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Shows an error page whenever an exception was raised. It&#39;s not recommended to use</span>
+  <span class="c1"># this middleware on a production server as it may reveal sensitive details to the</span>
+  <span class="c1"># visitor.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">ShowExceptions</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Pretty much the same as Rack::ShowExceptions.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">ShowStatus</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Routes exceptions to different actions, can be useful for catching 404&#39;s and such.</span>
+  <span class="c1">#</span>
+  <span class="c1"># m.use Rack::RouteExceptions</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Middleware that enables conditional GET using If-None-Match and If-Modified-Since.</span>
+  <span class="c1">#</span>
+  <span class="c1"># m.use Rack::ConditionalGet</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Automatically sets the ETag header on all string bodies. Etags can be useful for</span>
+  <span class="c1"># checking if a certain page has been modified or not.</span>
+  <span class="c1">#</span>
+  <span class="c1"># IMPORTANT: Prior to Rack 1.2.2 Rack::ETag required the second argument of use() to</span>
+  <span class="c1"># be set to &#39;public&#39;. Newer versions no longer require this.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">ETag</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Allows HEAD requests. HEAD requests are identical to GET requests but shouldn&#39;t</span>
+  <span class="c1"># return the body.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Head</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Automatically reloads your application whenever it detects changes. Note that this</span>
+  <span class="c1"># middleware isn&#39;t always as accurate so there may be times when you have to manually</span>
+  <span class="c1"># restart your server.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">use</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Reloader</span>
+
+  <span class="c1">##</span>
+  <span class="c1"># Runs Ramaze based on all mappings and such.</span>
+  <span class="c1">#</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">run</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">AppMap</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Middlewares</a><ul>
+<li><a class="reference internal" href="#building-the-middleware">Building the Middleware</a></li>
+<li><a class="reference internal" href="#using-middlewares">Using Middlewares</a></li>
+<li><a class="reference internal" href="#example-configuration">Example Configuration</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../helpers/blueform-helper.html"
+                        title="previous chapter">Blueform Helper</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="routes.html"
+                        title="next chapter">Routes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/general/middlewares.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="routes.html" title="Routes"
+             >next</a></li>
+        <li class="right" >
+          <a href="../helpers/blueform-helper.html" title="Blueform Helper"
+             >previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Michael Fellinger, Yorick Peterse.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

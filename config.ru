@@ -1,17 +1,18 @@
 #!/usr/bin/env rackup
 #
-# config.ru for ramaze apps
-# use thin >= 1.0.0
-# thin start -R config.ru
-#
-# rackup is a useful tool for running Rack applications, which uses the
-# Rack::Builder DSL to configure middleware and build up applications easily.
-#
-# rackup automatically figures out the environment it is run in, and runs your
-# application as FastCGI, CGI, or standalone with Mongrel or WEBrick—all from
-# the same configuration.
+# Usage:
+# * thin start -R config.ru
+# * unicorn config.ru
+# 
+# Note that settings such as the adapter and port are usually ignored as their set
+# by the webserver itself, commonly using the -p flag.
+# 
+require ::File.expand_path('../app', __FILE__)
 
-cwd = File.dirname(__FILE__)
-require "#{cwd}/start"
-Ramaze.start(:started => true)
+Ramaze.start(
+  :root    => Ramaze.options.roots,
+  :started => true,
+  :port    => Ramaze::Adapter.options.port
+)
+
 run Ramaze

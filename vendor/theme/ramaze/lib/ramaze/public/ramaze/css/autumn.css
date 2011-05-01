@@ -1,0 +1,176 @@
+/**
+ * Autumn port for Highlight.js.
+ *
+ * @author  Yorick Peterse
+ * @link    http://yorickpeterse.com/
+ * @license MIT License
+ *
+ * Copyright (c) 2011, Yorick Peterse
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+pre code
+{
+  background: #282828;
+  color:      #F3F2CC;
+  display: 	  block;
+  padding:    10px;
+}
+
+pre .keyword,
+pre .tag,
+pre .django .tag,
+pre .django .keyword,
+pre .css .class,
+pre .css .id,
+pre .lisp .title
+{
+  color: #EB5D49;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument
+{
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date
+{
+  color: #B3EBBF;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket
+{
+  color: #F3F2CC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special
+{
+color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst
+{
+  color: #E1F3B6;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .class .title,
+pre .function .title,
+pre .ini .title,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command
+{
+  color: #F3F2CC;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .instancevar
+{
+  color: #E8A75C;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .attribute .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula,pre .ruby .string
+{
+  color: #92AF72;
+}
+
+pre .css .rules .value, pre .tag .attribute .value
+{
+  color: #F3F2CC;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype
+{
+  color: #6B6B6B;
+}
+
+pre .html .css,
+pre .html .javascript,
+pre .tex .formula
+{
+  opacity: 0.8;
+}
+pre .keymethods
+{
+  color: #F3F2CC;
+}
+
+/* CSS specific rules */
+.css .class, .css .id
+{
+  color: #CBC983!important;
+}
+.css .keyword
+{
+  color: #F3F2CC!important;
+}
+.css .value
+{
+  color: #92AF72!important;
+}
+.css .hexcolor
+{
+  color: #B3EBBF!important;
+}
+
+/* PHP specific rules */
+.php .variable
+{
+  color: #7895B7!important;
+}

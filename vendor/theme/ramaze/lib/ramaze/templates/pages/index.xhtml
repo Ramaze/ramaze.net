@@ -1,0 +1,39 @@
+<?r 
+entry          = plugin(:section_entries, :section => 'pages', :entry => 'home') 
+feature_fields = [:'top-left', :'top-right', :'bottom-left', :'bottom-right']
+
+show_404 if !entry
+?>
+<!DOCTYPE html>
+<html lang="#{Zen::Settings[:language]}">
+    <head>
+        #{partial(:head)}
+    </head>
+    <body id="#{entry[:fields][:'css-id']}">
+        <!-- Global container for all elements -->
+        <div class="container">
+            <div id="container" class="row">
+                <!-- Top part of the website containing the title and navigation menu -->
+                <div id="top" class="grid_12">
+                    #{partial(:header)}
+                </div>
+
+                <!-- Page banner, contains a short description and an image -->
+                <div id="banner" class="grid_12">
+                    #{entry[:fields][:body]}
+                </div>
+
+                <!-- Box with a set of features of Ramaze -->
+                <div id="features" class="grid_12">
+                    <?r feature_fields.each do |f| ?>
+                    <article class="#{cycle('grid_6', 'grid_6 last')}">
+                        #{entry[:fields][f]}
+                    </article>
+                    <?r end ?>
+                </div>
+            </div>
+
+            #{partial(:footer)}
+        </div>
+    </body>
+</html>

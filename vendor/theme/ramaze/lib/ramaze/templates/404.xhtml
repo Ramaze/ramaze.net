@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="#{Zen::Settings[:language]}">
+    <head>
+        #{partial(:head)}
+    </head>
+    <body>
+        <!-- Global container for all elements -->
+        <div class="container">
+            <div id="container" class="row">
+                <!-- Top part of the website containing the title and navigation menu -->
+                <div id="top" class="grid_12">
+                    #{partial(:header)}
+                </div>
+
+                <!-- Main content -->
+                <div id="content" class="grid_12">
+                    <h1>Page not found</h1>
+                    <p>
+                        It appears that the requested page 
+                        <code>#{@request_uri.join('/')}</code> could not be found. If you
+                        think this might be a bug in the website you can send an Email to
+                        the mailing list or to info@yorickpeterse.com.
+                    </p>
+
+                    <p>
+                        If you want to go back to the homepage you can click the "Home"
+                        button at the top or <a href="/" title="Home">this</a> link.
+                    </p>
+                </div>
+            </div>
+
+            #{partial(:footer)}
+        </div>
+    </body>
+</html>

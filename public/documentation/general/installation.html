@@ -1,0 +1,157 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; Ramaze v2011.01.30 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2011.01.30',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Ramaze v2011.01.30 documentation" href="../index.html" />
+    <link rel="next" title="Ramaze Command" href="ramaze-command.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="ramaze-command.html" title="Ramaze Command"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>There are two ways of installing Ramaze, via RubyGems or using Git. If you&#8217;re not
+interested in hacking with Ramaze or just want to quickly try it out using RubyGems is
+the easiest way of installing Ramaze. Installing Ramaze using RubyGems only requires the
+following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>gem install ramaze
+</pre></div>
+</div>
+<p>On some systems you may need sudo permissions, in that case you&#8217;ll have to execute the
+following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo gem install ramaze
+</pre></div>
+</div>
+<p>If you&#8217;re running RVM this won&#8217;t work, instead you&#8217;ll have to execute the following
+command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>rvmsudo gem install ramaze
+</pre></div>
+</div>
+<p>If you want to submit patches or simply want to use the bleeding edge of Ramaze it&#8217;s best
+to install it using Git. First make sure you&#8217;re using a recent version of Git, you can
+find your version by executing this command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git --version
+git version 1.7.1
+</pre></div>
+</div>
+<p>Once you&#8217;re running a recent version of Git (1.7 should be enough) you can clone a copy
+of Ramaze by executing the git clone command as following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone git://github.com/Ramaze/ramaze.git
+</pre></div>
+</div>
+<p>This will create a directory called &#8220;ramaze&#8221; in the current directory. If you want to
+rename the directory you can either modify the above command or use the mv command. Git
+clone allows you to specify a custom directory name as following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone git://github.com/Ramaze/ramaze.git custom-directory-name
+</pre></div>
+</div>
+<p>Once you have a copy of Ramaze you can build the Gem by calling <tt class="docutils literal"><span class="pre">rake</span> <span class="pre">install</span></tt>. Make sure
+that you&#8217;re in the actual directory otherwise Rake won&#8217;t be able to find the Rakefile.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Imagine we&#8217;re new to Ramaze and want to install it using Git. We&#8217;d do this as following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone git://github.com/Ramaze/ramaze.git
+<span class="nv">$ </span><span class="nb">cd </span>ramaze
+<span class="nv">$ </span>rake install
+</pre></div>
+</div>
+<p>From this point on we can simply do <tt class="docutils literal"><span class="pre">require</span> <span class="pre">'ramaze'</span></tt> and we&#8217;re good to go.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ramaze-command.html"
+                        title="next chapter">Ramaze Command</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/general/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="ramaze-command.html" title="Ramaze Command"
+             >next</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Michael Fellinger, Yorick Peterse.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

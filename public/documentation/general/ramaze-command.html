@@ -1,0 +1,242 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ramaze Command &mdash; Ramaze v2011.01.30 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2011.01.30',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Ramaze v2011.01.30 documentation" href="../index.html" />
+    <link rel="next" title="Controllers" href="controllers.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="controllers.html" title="Controllers"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ramaze-command">
+<h1>Ramaze Command<a class="headerlink" href="#ramaze-command" title="Permalink to this headline">¶</a></h1>
+<p>Ramaze ships with a relatively simple command, named &#8220;ramaze&#8221;. This command can be used
+to create new applications as well as starting them. To make reading this guide easier
+we&#8217;ll call this command &#8220;bin/ramaze&#8221; from now on.</p>
+<div class="section" id="creating-applications">
+<h2>Creating Applications<a class="headerlink" href="#creating-applications" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned earlier bin/ramaze can be used to create new applications. In order to create
+a new application in the current directory all you have to do is executing the following
+command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ramaze create APPNAME
+</pre></div>
+</div>
+<p>APPNAME is the name of your new application and will also be used as the directory name.
+If the application was named &#8220;blog&#8221; there would now be a directory called &#8220;blog&#8221; in the
+current one. This directory will contain all basic files that can be used for a Ramaze
+powered application.</p>
+<p>Each new application has the following structure:</p>
+<div class="highlight-python"><pre>.__ app.rb
+|__ config.ru
+|__ controller
+|   |__ init.rb
+|   |__ main.rb
+|
+|__ layout
+|   |__ default.xhtml
+|
+|__ model
+|   |__ init.rb
+|
+|__ public
+|   |
+|   |__ css
+|   |   |__ screen.css
+|   |
+|   |__ dispatch.fcgi
+|   |__ favicon.ico
+|   |__ js
+|   |   |__ jquery.js
+|   |
+|   |__ ramaze.png
+|
+|__ spec
+|   |__ main.rb
+|
+|__ start.rb
+|__ view
+    |__ index.xhtml</pre>
+</div>
+</div>
+<div class="section" id="application-prototypes">
+<h2>Application Prototypes<a class="headerlink" href="#application-prototypes" title="Permalink to this headline">¶</a></h2>
+<p>Due to Ramaze&#8217;s nature it&#8217;s very easy to create your own application prototype if you
+dislike the default one. For example, I&#8217;ve made some small modifications to the default
+prototype so that it looks like the followng:</p>
+<div class="highlight-python"><pre>.__ app.rb
+|__ config
+|   |__ config.rb
+|   |__ database.rb
+|   |__ middlewares.rb
+|   |__ requires.rb
+|
+|__ config.ru
+|__ controller
+|__ layout
+|   |__ default.xhtml
+|
+|__ log
+|__ public
+|__ spec
+|__ start.rb
+|__ view</pre>
+</div>
+<p>This prototype is basically a minimal version of the default one but with a special
+directory for all configuration files. In order to use this prototype I had to make some
+small changes to app.rb, the look like the following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;ramaze&#39;</span>
+
+<span class="c1"># Load the file that in turn will load all gems, keeps this file clean</span>
+<span class="nb">require</span> <span class="n">__DIR__</span><span class="p">(</span><span class="s1">&#39;config/requires&#39;</span><span class="p">)</span>
+
+<span class="c1"># Configure our application</span>
+<span class="nb">require</span> <span class="n">__DIR__</span><span class="p">(</span><span class="s1">&#39;config/config&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load our database settings</span>
+<span class="nb">require</span> <span class="n">__DIR__</span><span class="p">(</span><span class="s1">&#39;config/database&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load all Rack middlewares</span>
+<span class="nb">require</span> <span class="n">__DIR__</span><span class="p">(</span><span class="s1">&#39;config/middlewares&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load all controllers</span>
+<span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">__DIR__</span><span class="p">(</span><span class="s1">&#39;controller&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/**/*.rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+  <span class="nb">require</span> <span class="n">f</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>This is only a basic example of the flexibility of Ramaze, I highly recommend you playing
+around with your own prototypes as it&#8217;s a great way to learn the basics of Ramaze and to
+really understand how flexible Ramaze is.</p>
+</div>
+<div class="section" id="running-applications">
+<h2>Running Applications<a class="headerlink" href="#running-applications" title="Permalink to this headline">¶</a></h2>
+<p>When you&#8217;ve created an application there are three ways of running it. You can either use
+your server&#8217;s command such as <cite>thin</cite> or <cite>unicorn</cite> but you can also use bin/ramaze. When
+starting your application with bin/ramaze it will use the appropriate server according to
+the settings set in &#8220;config.ru&#8221; or &#8220;star.rb&#8221;. An example of using this command is as
+simple as the following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ramaze start
+</pre></div>
+</div>
+<p>On top of these two ways you can also start your Ramaze application by calling the
+&#8220;start.rb&#8221; file using the ruby binary:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ruby start.rb
+</pre></div>
+</div>
+<p>If you want to stop the running application you can simply close it by using the key
+combination Ctrl+C.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are many different ways to start your application depending on the server you&#8217;re
+using. Fore more information it&#8217;s best to look at the documentation of your favorite
+webserver.</p>
+</div>
+</div>
+<div class="section" id="ramaze-console">
+<h2>Ramaze Console<a class="headerlink" href="#ramaze-console" title="Permalink to this headline">¶</a></h2>
+<p>The bin/ramaze command allows you to run an interactive Ramaze session just like IRB. In
+fact, Ramaze actually uses IRB. To invoke the Ramaze console simple execute
+<cite>ramaze console</cite> and you&#8217;re good to go. This console gives you full access to your
+application and thus can be very useful for debugging purposes.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Ramaze Command</a><ul>
+<li><a class="reference internal" href="#creating-applications">Creating Applications</a></li>
+<li><a class="reference internal" href="#application-prototypes">Application Prototypes</a></li>
+<li><a class="reference internal" href="#running-applications">Running Applications</a></li>
+<li><a class="reference internal" href="#ramaze-console">Ramaze Console</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="controllers.html"
+                        title="next chapter">Controllers</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/general/ramaze-command.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="controllers.html" title="Controllers"
+             >next</a></li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             >previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Michael Fellinger, Yorick Peterse.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

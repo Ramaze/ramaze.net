@@ -1,0 +1,188 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Routes &mdash; Ramaze v2011.01.30 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2011.01.30',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Ramaze v2011.01.30 documentation" href="../index.html" />
+    <link rel="next" title="Sessions" href="sessions.html" />
+    <link rel="prev" title="Middlewares" href="middlewares.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="sessions.html" title="Sessions"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="middlewares.html" title="Middlewares"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="routes">
+<h1>Routes<a class="headerlink" href="#routes" title="Permalink to this headline">¶</a></h1>
+<p>While in many cases the default route system that comes with Ramaze is good enough there
+will be times when you want pretty URLs (or just different ones). Ramaze allows you to do
+all this using the class Ramaze::Route (it&#8217;s an alias of Innate::Route). This class allows
+you to create routes using simple strings, regular expressions and lambdas. Let&#8217;s say we
+have the following URLs:</p>
+<ul class="simple">
+<li>/users/index</li>
+<li>/users/profile/yorickpeterse</li>
+<li>/users/edit/yorickpeterse</li>
+</ul>
+<p>Our goal is to rewrite these URLs to the following:</p>
+<ul class="simple">
+<li>/users/list</li>
+<li>/users/yorickpeterse</li>
+<li>/users/yorickpeterse/edit</li>
+</ul>
+<p>In order to fully explain the routing system will use the three available possibilities:
+strings, regular expressions and lambdas.</p>
+<div class="section" id="string-routes">
+<h2>String Routes<a class="headerlink" href="#string-routes" title="Permalink to this headline">¶</a></h2>
+<p>Routes that use a string are the most basic form of routing. You simply specify a request
+URI and the action to call instead of the normal one:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Ramaze</span><span class="o">::</span><span class="no">Route</span><span class="o">[</span><span class="s1">&#39;/foobar&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;/baz/bar&#39;</span>
+</pre></div>
+</div>
+<p>This route tells Ramaze that every request to /foobar should be sent to /baz/bar instead.
+While string based routes are the easiest to use they&#8217;re also the most limited one, they
+can merely be used to redirect A to B. If we look at our list of URLs the only one we can
+rewrite using this form of routing is the first one:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Ramaze</span><span class="o">::</span><span class="no">Route</span><span class="o">[</span><span class="s1">&#39;/users/list&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;/users/index&#39;</span>
+</pre></div>
+</div>
+<p>This forwards all requests that were sent to /users/list to /users/index.</p>
+</div>
+<div class="section" id="regular-expression-routes">
+<h2>Regular Expression Routes<a class="headerlink" href="#regular-expression-routes" title="Permalink to this headline">¶</a></h2>
+<p>Using regular expressions in routes makes it possible to have more dynamic routes. Routes
+that use regular expressions look like the following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Ramaze</span><span class="o">::</span><span class="no">Route</span><span class="o">[/</span><span class="n">user</span><span class="o">-</span><span class="p">(</span><span class="o">[</span><span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="o">]+</span><span class="p">)</span><span class="o">/]</span> <span class="o">=</span> <span class="s1">&#39;/users/%d&#39;</span>
+</pre></div>
+</div>
+<p>This route forwards requests such as /user-10 and /user-1234 to /users/10 and /users/1234.
+As you can see there&#8217;s a &#8220;%d&#8221; in the value which is replaced with the value of the group
+([0-9]+). When using regular expressions for your routes you can use sprintf characters
+in the value (%s, %d, etc).</p>
+<p>So what about our list of URLs? Let&#8217;s rewrite the second URL:</p>
+<blockquote>
+<div>Ramaze::Route[&#8216;/users/([w]+)&#8217;] = &#8216;/users/profile/%s&#8217;</div></blockquote>
+<p>And there we go, all calls to /users/NAME (where NAME is the name of a user) will be
+routed to /users/profile/NAME.</p>
+</div>
+<div class="section" id="lambda-routes">
+<h2>Lambda Routes<a class="headerlink" href="#lambda-routes" title="Permalink to this headline">¶</a></h2>
+<p>The last method of routing calls can be done using lambdas. The key of the []= method will
+be the name of a route (can be anything really) and the value a lambda that takes two
+parameters, the request path and a variable containing the request data:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Ramaze</span><span class="o">::</span><span class="no">Route</span><span class="o">[</span><span class="s1">&#39;my funky lambda route&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="p">,</span> <span class="n">request</span><span class="o">|</span>
+
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>In this lambda you&#8217;re free to do whatever you want as long as you either return a new path
+or nil (anything else will result in an error). Say we wanted to route our last URL we&#8217;d
+do it as following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Ramaze</span><span class="o">::</span><span class="no">Route</span><span class="o">[</span><span class="s1">&#39;edit users&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="p">,</span> <span class="n">request</span><span class="o">|</span>
+  <span class="k">if</span> <span class="n">path</span> <span class="o">=~</span> <span class="sr">/users\/edit\/([\w]+)/</span>
+    <span class="k">return</span> <span class="s2">&quot;/users/</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="s2">/edit&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>This route redirects everything from /users/NAME/edit to /users/edit/NAME. Everything else
+is unaffected by this route since it only returns a value when the path matches the given
+regular expression. Note that lambdas can actually contain a &#8220;return&#8221; statement so the
+code above is perfectly valid.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Routes</a><ul>
+<li><a class="reference internal" href="#string-routes">String Routes</a></li>
+<li><a class="reference internal" href="#regular-expression-routes">Regular Expression Routes</a></li>
+<li><a class="reference internal" href="#lambda-routes">Lambda Routes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="middlewares.html"
+                        title="previous chapter">Middlewares</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sessions.html"
+                        title="next chapter">Sessions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/general/routes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="sessions.html" title="Sessions"
+             >next</a></li>
+        <li class="right" >
+          <a href="middlewares.html" title="Middlewares"
+             >previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Michael Fellinger, Yorick Peterse.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

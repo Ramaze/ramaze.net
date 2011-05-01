@@ -1,0 +1,179 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models &mdash; Ramaze v2011.01.30 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2011.01.30',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Ramaze v2011.01.30 documentation" href="../index.html" />
+    <link rel="next" title="Views" href="views.html" />
+    <link rel="prev" title="Controllers" href="controllers.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="views.html" title="Views"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="controllers.html" title="Controllers"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<p>Unlike other frameworks Ramaze does not ship with a database toolkit. One of the ideas of
+Ramaze is that it allows you to choose your own set of tools, you&#8217;re not forced to use
+what we think is best. Ramaze allows you to use ActiveRecord, <a class="reference external" href="http://sequel.rubyforge.org/">Sequel</a>, M4DBI or anything
+else. For the simplicity of this user guide we&#8217;ll use <a class="reference external" href="http://sequel.rubyforge.org/">Sequel</a>. In short, Sequel
+is a database toolkit that allows you to write SQL statements using Ruby methods as well
+as providing an ORM(Object Relationship Mapper).</p>
+<p>Let&#8217;s say we&#8217;re creating a simple blog application. Each blog has posts, comments, users
+and perhaps some categories. We&#8217;re not going to create a model for each of these entities
+in this guide but instead we&#8217;ll focus on the Post model. The most basic form of a model
+looks like the following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">Sequel</span><span class="o">::</span><span class="no">Model</span>
+
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>From this point on we can load our model (given we have established a database connection)
+and call methods from it. For example, if we want to retrieve the post with ID #1 we&#8217;d
+do the following:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Post</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="c1"># =&gt; SELECT * FROM posts WHERE id = 1</span>
+</pre></div>
+</div>
+<p>Performing a WHERE clause and retrieving a single record can be done by passing a hash
+to the [] method:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="no">Post</span><span class="o">[</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Ramaze is Great&#39;</span><span class="o">]</span> <span class="c1"># =&gt; SELECT * FROM posts WHERE title = &#39;Ramaze is Great&#39;</span>
+</pre></div>
+</div>
+<div class="section" id="controllers-and-models">
+<h2>Controllers And Models<a class="headerlink" href="#controllers-and-models" title="Permalink to this headline">¶</a></h2>
+<p>Of course using amodels on it&#8217;s own isn&#8217;t really going to work. Let&#8217;s combine our Post
+model mentioned earlier with a controller called &#8220;Posts&#8221;.</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;ramaze&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;model/post&#39;</span>
+
+<span class="k">class</span> <span class="nc">Posts</span> <span class="o">&lt;</span> <span class="no">Ramaze</span><span class="o">::</span><span class="no">Controller</span>
+  <span class="n">map</span> <span class="s1">&#39;/&#39;</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">all</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">edit</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+    <span class="c1"># Arguments are passed as strings so it&#39;s a good idea to convert them</span>
+    <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">[</span><span class="nb">id</span><span class="o">.</span><span class="n">to_i</span><span class="o">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>This is a somewhat more advanced example of how to use controllers and models. However,
+it&#8217;s nothing ground breaking and shouldn&#8217;t be too hard to understand. In the index()
+method we&#8217;re simply retrieving all posts by calling Post#all and storing them in an
+instance variable. In the edit() method we&#8217;re retrieving the post based on the given ID.</p>
+<p>In the edit() method the &#8220;id&#8221; variable is also converted to an integer. The reason for this
+is that Ramaze doesn&#8217;t know what types the URI segments should be and thus passes them as
+a string to the called method. While Sequel itself won&#8217;t have any trouble handling this
+it&#8217;s a good practice to send the correct types as other database toolkits might trigger
+errors when they receive a string value while expecting an integer.</p>
+</div>
+<div class="section" id="supported-toolkits">
+<h2>Supported Toolkits<a class="headerlink" href="#supported-toolkits" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://ar.rubyonrails.org/">ActiveRecord</a></li>
+<li><a class="reference external" href="https://github.com/Pistos/m4dbi">M4DBI</a></li>
+<li><a class="reference external" href="http://sequel.rubyforge.org/">Sequel</a></li>
+<li><a class="reference external" href="http://datamapper.org/">DataMapper</a></li>
+</ul>
+<p>Most of the Ramaze developers and users use Sequel or DataMapper so feel free to ask any
+questions about them in our IRC channel #ramaze.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Models</a><ul>
+<li><a class="reference internal" href="#controllers-and-models">Controllers And Models</a></li>
+<li><a class="reference internal" href="#supported-toolkits">Supported Toolkits</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="controllers.html"
+                        title="previous chapter">Controllers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="views.html"
+                        title="next chapter">Views</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/general/models.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="views.html" title="Views"
+             >next</a></li>
+        <li class="right" >
+          <a href="controllers.html" title="Controllers"
+             >previous</a> |</li>
+        <li><a href="../index.html">Ramaze v2011.01.30 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Michael Fellinger, Yorick Peterse.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

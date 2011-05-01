@@ -1,0 +1,70 @@
+Helpers
+=======
+
+Helpers are simple modules that can be used in controllers to prevent developers from
+having to write the same code over and over again. There's no actual definition of how
+helpers should be used and what they should do but the general idea is quite simple, all
+logic that may be shared among controllers should go in a helper. For example, Ramaze ships
+with it's own layout helper that adds a method "set_layout" (see the 
+:doc:`../general/views` chapter).
+
+In order to use a helper there are a few guidelines it should follow. The most important
+guideline (or rule) is that it should be declared under the Ramaze::Helper namespace. Say
+your helper is called "Cake" this would result in Ramaze::Helper::Cake as the full name.
+The second rule/guideline is that helpers should be placed in the "helper" directory of
+your Ramaze application (or any other directory added to the list of helper paths). This
+is required in order to load helpers the ramaze way, otherwise you'll have to manually 
+load each helper.
+
+Loading Helpers
+---------------
+
+Loading helpers the Ramaze way is pretty easy and can be done using the method helper():
+
+.. code-block:: ruby
+
+    class Blogs < Ramaze::Controller
+      helper :cake
+    end
+
+This method can load multiple helpers in a single call as well:
+
+.. code-block:: ruby
+
+    class Blogs < Ramaze::Controller
+      helper :cake, :pie, :candy
+    end
+
+If you have your helper located somewhere else or don't want to use the helper() method
+you can just include each helper the regular way:
+
+.. code-block:: ruby
+
+    class Blogs < Ramaze::Controller
+      include Ramaze::Helper::Cake
+      include Ramaze::Helper::Pie
+      inlcude Ramaze::Helper::Candy
+    end
+
+As you can see this requires more lines of code and thus it's recommended to load all
+helpers the Ramaze way.
+
+Available Helpers
+-----------------
+
+Ramaze ships with a pretty large list of available helpers. At the time of writing (April 
+2011) Ramaze ships with a total of 29 helpers available. These include modules for CSRF
+protection, user authentication, pagination and so on. A full list of all helpers can be
+found `here`_.
+
+Detailed Guide
+--------------
+
+.. toctree::
+   :maxdepth: 2
+
+   csrf
+   blueform
+
+.. _here: https://github.com/Ramaze/ramaze/tree/master/lib/ramaze/helper
+

@@ -1,0 +1,48 @@
+Introduction
+============
+
+Ramaze is a simple and powerful framework for Ruby. It was originally written by 
+Michael Fellinger (nicknamed manveru) in the summer of 2006 out of the frustrations and
+limitations of Ruby on Rails. Over the years Ramaze grew from a personal project to a
+fully fledged framework with contributions from many developers.
+
+Ramaze is a MVC framework similar to frameworks such as Ruby on Rails and Padrino. 
+However, the way Ramaze is written you can easily make a [HMVC][hmvc] based application
+or something that uses your own structure. The philosophy of Ramaze can be expressed in
+a mix of `KISS`_ and `POLS`_, trying to make simple things simple and complex things 
+possible.
+
+This of course is nothing new to anyone who knows some Ruby, but is often forgotten in a 
+chase for new functionality and features. Ramaze only tries to give you the ultimate 
+tools, but you have to use them yourself to achieve perfect custom-tailored results. 
+Another one of the goals during development of Ramaze was to make every part as modular 
+and therefore reusable as possible, not only to provide a basic understanding after the 
+first glance, but also to make it as simple as possible to reuse parts of the code.
+
+The original purpose of Ramaze was to act as a kind of framework to build web-frameworks, 
+this was made obsolete by the introduction of rack, which provides this feature at a 
+better level without trying to enforce any structural layout of the resulting framework.
+
+Features
+--------
+
+* Support for a wide range of template engines such as Liquid, ERB and Tenjin.
+* Supports all ORMs and database toolkits such as Sequel, DataMapper or even ActiveRecord
+* Allows you to develop applications your way by giving you absolute freedom.
+* Very stable code that's tested before every release.
+* A wide range of helpers that can be used for authentication, paginating content, Captcha's and a lot more.
+* It's just Ruby, nothing else.
+
+Ramaze & Innate
+---------------
+
+Early January 2009 Ramaze was split into two different frameworks, Innate and Ramaze.
+Innate was created to make it easier to maintain the project as well as giving people the
+opportunity to use a somewhat lighter framework. When looking at existing frameworks one
+could see Innate as `Sinatra`_ and Ramaze as `Padrino`_.
+
+.. _Sinatra: http://sinatrarb.com/
+.. _Padrino: http://padrinorb.com/
+.. _HMVC: https://secure.wikimedia.org/wikipedia/en/wiki/Presentation-abstraction-control
+.. _KISS: http://en.wikipedia.org/wiki/KISS_principle
+.. _POLS: http://en.wikipedia.org/wiki/Principle_of_least_surprise

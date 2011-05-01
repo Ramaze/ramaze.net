@@ -1,15 +1,16 @@
-$KCODE = 'u'
+#!/usr/bin/env ruby
+#
+# File that can be used to start the application as following:
+#
+#     $ ramaze start
+#     $ ruby start.rb
+#     $ ./start.rb
+# 
+require File.expand_path('../app', __FILE__)
 
-require 'ramaze'
-require 'haml' # not sure why i need this.
-require 'maruku'
-require 'builder'
-
-require __DIR__ 'controller/init'
-require __DIR__ 'vendor/feed_convert'
-
-THEME = 'espresso_libre'
-
-Ramaze::Cache.add(:feed)
-# Ramaze::Global.content_type = 'text/html; charset=utf-8'
-Ramaze.start(:adapter => :thin, :port => 7000) if __FILE__ == $0
+Ramaze.start(
+  :root    => Ramaze.options.roots,
+  :started => true,
+  :adapter => Ramaze::Adapter.options.handler,
+  :port    => Ramaze::Adapter.options.port
+)
