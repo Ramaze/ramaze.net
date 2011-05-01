@@ -116,6 +116,9 @@ Sequel.migration do
       {:custom_field_group_id => field_group_id_1, :section_id => section_id_0},
       {:custom_field_group_id => field_group_id_2, :section_id => section_id_0}
     ])
+
+    # Update the settings table
+    Zen::Database.handle[:settings].filter(:name => 'theme').update(:value => 'ramaze')
   end
   
   down do
