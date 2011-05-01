@@ -8,7 +8,8 @@ Sequel.migration do
 
     Zen::Database.handle[:categories].insert(
       :name => 'Release', :description => 'Category that should be used whenever an 
-      article is about a new version of Ramaze.', :category_group_id => category_group_id
+      article is about a new version of Ramaze.', :category_group_id => category_group_id,
+      :slug => 'release'
     )
 
     # Insert all custom fields
