@@ -43,7 +43,7 @@ you can just include each helper the regular way:
     class Blogs < Ramaze::Controller
       include Ramaze::Helper::Cake
       include Ramaze::Helper::Pie
-      inlcude Ramaze::Helper::Candy
+      include Ramaze::Helper::Candy
     end
 
 As you can see this requires more lines of code and thus it's recommended to load all
