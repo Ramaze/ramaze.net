@@ -1,5 +1,6 @@
 # Load the Zen gem
 require 'zen'
+require 'rdiscount'
 
 # Load the configuration files
 require __DIR__('config/config')
@@ -19,5 +20,9 @@ Ramaze.options.roots.push(Zen.options.root)
 # Load the database
 Zen.init
 
-# Require all the custom gems/modules we need
-require __DIR__('config/requires')
+# Load the theme before all packages so that it shows up in the settings manager.
+require __DIR__('theme/ramaze/lib/ramaze')
+require __DIR__('plugin/markup')
+
+# Load all core extensions that ship with Zen. 
+require 'zen/package/all'

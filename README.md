@@ -8,7 +8,7 @@ a copy of the user guide generated using Sphinx.
 In order to run this website you'll need to have a copy of Zen >= 0.2.5 and RDiscount.
 These can be installed as following:
 
-    $ gem install zen rdiscount
+    $ bundle install
 
 Once Zen is installed you should migrate the database:
 
