@@ -1,4 +1,4 @@
-<?r entries = plugin(:section_entries, :section => 'blog') ?>
+<?r entries = plugin(:section_entries, :section => 'blog', :categories => true) ?>
 <!DOCTYPE html>
 <html lang="#{plugin(:settings, :get, :language).value}">
     <head>
@@ -42,14 +42,6 @@
                                 <p>
                                     Posted in:
                                     #{entry[:categories].map { |c| c[:name] }.join(', ') }
-                                    |
-                                    <a href="/blog/entry/#{entry[:slug]}#comments">
-                                        <?r if entry[:comments].count === 1 ?>
-                                        1 comment
-                                        <?r else ?>
-                                        #{entry[:comments].count} comments
-                                        <?r end ?>
-                                    </a>
                                 </p>
                             </footer>
                         </article>

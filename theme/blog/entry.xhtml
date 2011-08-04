@@ -1,6 +1,13 @@
 <?r
-entry   = plugin(:section_entries, :section => 'blog', :entry => @request_uri[2])
-section = plugin(:sections       , :section => 'blog')
+entry = plugin(
+  :section_entries,
+  :section    => 'blog',
+  :entry      => @request_uri[2],
+  :comments   => true,
+  :categories => true
+)
+section = plugin(:sections, :section => 'blog')
+
 show_404 if !entry
 ?>
 <!DOCTYPE html>
