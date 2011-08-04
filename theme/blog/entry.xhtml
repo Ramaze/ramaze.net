@@ -1,10 +1,10 @@
-<?r 
+<?r
 entry   = plugin(:section_entries, :section => 'blog', :entry => @request_uri[2])
 section = plugin(:sections       , :section => 'blog')
 show_404 if !entry
 ?>
 <!DOCTYPE html>
-<html lang="#{Zen::Settings[:language]}">
+<html lang="#{plugin(:settings, :get, :language).value}">
     <head>
         #{partial(:head)}
     </head>
@@ -27,7 +27,7 @@ show_404 if !entry
                                 </h1>
                                 <p class="meta">
                                     Written by #{entry[:user][:name]} on
-                                    <time pubdate="pubdate" 
+                                    <time pubdate="pubdate"
                                     datetime="#{entry[:created_at].strftime('%Y-%m-%d')}">
                                         #{entry[:created_at].strftime('%A, %B %d, %Y')}
                                     </time>
@@ -38,7 +38,7 @@ show_404 if !entry
 
                             <footer>
                                 <p>
-                                    Posted in: 
+                                    Posted in:
                                     #{entry[:categories].map { |c| c[:name] }.join(', ') }
                                     |
                                     <?r if entry[:comments].count === 1 ?>
@@ -50,7 +50,7 @@ show_404 if !entry
                             </footer>
                         </article>
                     </section>
-                    
+
                     <!-- Comments, yay -->
                     <?r if section[:comment_allow] === true ?>
                     <section id="comments">
@@ -63,11 +63,11 @@ show_404 if !entry
                             <header>
                                 <h1>
                                     <a href="#{comment[:website]}">
-                                        #{comment[:name]}    
+                                        #{comment[:name]}
                                     </a>
                                 </h1>
                                 <p class="meta">
-                                    <time pubdate="pubdate" 
+                                    <time pubdate="pubdate"
                                     datetime="#{comment[:created_at].strftime('%Y-%m-%d')}">
                                         #{comment[:created_at].strftime('%A, %B %d, %Y')}
                                     </time>

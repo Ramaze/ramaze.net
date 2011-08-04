@@ -2,7 +2,7 @@
  * Stylesheet used for styling headings, links, etc.
  *
  * @author Yorick Peterse
- * @link   http://yorickpeterse.com/ 
+ * @link   http://yorickpeterse.com/
  */
 body
 {
@@ -45,6 +45,12 @@ ul
         list-style-type: disc;
     }
 
+ul, ol
+{
+    line-height:   22px;
+    margin-bottom: 20px;
+}
+
 a:hover, h1 a:hover
 {
     color: #E33F1E;
@@ -62,7 +68,7 @@ h1
 }
 
 h2
-{ 
+{
     font-size: 24px;
 }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="#{Zen::Settings[:language]}">
+<html lang="#{plugin(:settings, :get, :language).value}">
     <head>
         #{partial(:head)}
     </head>
@@ -16,7 +16,7 @@
                 <div id="content" class="grid_12">
                     <h1>Page not found</h1>
                     <p>
-                        It appears that the requested page 
+                        It appears that the requested page
                         <code>#{@request_uri.join('/')}</code> could not be found. If you
                         think this might be a bug in the website you can send an Email to
                         the mailing list or to info@yorickpeterse.com.
