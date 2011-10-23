@@ -1,9 +1,7 @@
-<?r entries = plugin(
-  :section_entries,
-  :section    => 'blog',
-  :categories => true,
-  :order      => :desc
-) ?>
+<?r
+entries = plugin(:section_entries, :section => 'blog', :categories => true)
+entries = entries.sort_by { |e| e[:id] }.reverse
+?>
 <!DOCTYPE html>
 <html lang="#{plugin(:settings, :get, :language).value}">
     <head>
