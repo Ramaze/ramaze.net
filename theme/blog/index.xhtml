@@ -1,4 +1,9 @@
-<?r entries = plugin(:section_entries, :section => 'blog', :categories => true) ?>
+<?r entries = plugin(
+  :section_entries,
+  :section    => 'blog',
+  :categories => true,
+  :order      => :desc
+) ?>
 <!DOCTYPE html>
 <html lang="#{plugin(:settings, :get, :language).value}">
     <head>
