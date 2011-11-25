@@ -1,57 +1,58 @@
 <?r
-entry = plugin(
-  :section_entries,
-  :section    => 'blog',
-  :entry      => @request_uri[2],
-  :comments   => true,
-  :categories => true
-)
-section = plugin(:sections, :section => 'blog')
+entry = get_entry(@request_uri[2], :categories => true)
 
 show_404 if !entry
+
+if entry.section.comment_allow == true
+  comments = get_comments(@request_uri[2]).all
+end
 ?>
 <!DOCTYPE html>
-<html lang="#{plugin(:settings, :get, :language).value}">
+<html lang="#{get_setting(:language).value}">
     <head>
         #{partial(:head)}
     </head>
     <body>
-        <!-- Global container for all elements -->
         <div class="container">
             <div id="container" class="row">
-                <!-- Top part of the website containing the title and navigation menu -->
                 <div id="top" class="grid_12">
                     #{partial(:header)}
                 </div>
 
-                <!-- Area containing all blog posts -->
                 <div id="content" class="grid_12">
-                    <section>
                         <article>
                             <header>
                                 <h1>
-                                    #{entry[:title]}
+                                    #{entry.title}
                                 </h1>
                                 <p class="meta">
-                                    Written by #{entry[:user][:name]} on
+                                    Written by #{entry.user.name} on
                                     <time pubdate="pubdate"
-                                    datetime="#{entry[:created_at].strftime('%Y-%m-%d')}">
-                                        #{entry[:created_at].strftime('%A, %B %d, %Y')}
+                                    datetime="#{entry.created_at.strftime('%Y-%m-%d')}">
+                                        #{entry.created_at.strftime('%A, %B %d, %Y')}
                                     </time>
                                 </p>
                             </header>
 
-                            #{entry[:fields][:body]}
+                            #{entry.fields[:body]}
 
                             <footer>
                                 <p>
                                     Posted in:
-                                    #{entry[:categories].map { |c| c[:name] }.join(', ') }
+                                    #{entry.categories.map { |c| c.name }.join(', ') }
+
+                                    <?r if entry.section.comment_allow == true ?>
                                     |
-                                    <?r if entry[:comments].count === 1 ?>
+                                    <?r if entry.comments.length === 1 ?>
+
                                     1 comment
+
                                     <?r else ?>
-                                    #{entry[:comments].count} comments
+
+                                    #{entry.comments.length} comments
+
+                                    <?r end ?>
+
                                     <?r end ?>
                                 </p>
                             </footer>
@@ -59,33 +60,39 @@ show_404 if !entry
                     </section>
 
                     <!-- Comments, yay -->
-                    <?r if section[:comment_allow] === true ?>
+                    <?r if entry.section.comment_allow == true ?>
                     <section id="comments">
                         <h1>Comments</h1>
 
-                        <?r if entry[:comments].count === 0 ?>
+                        <?r if comments.length == 0 ?>
+
                         <p>No comments have been posted yet.</p>
-                        <?r else; entry[:comments].each do |comment| ?>
+
+                        <?r else; comments.each do |comment| ?>
+
                         <article>
                             <header>
                                 <h1>
-                                    <a href="#{comment[:website]}">
-                                        #{comment[:name]}
+                                    <a href="#{comment.website}">
+                                        #{comment.name}
                                     </a>
                                 </h1>
+
                                 <p class="meta">
                                     <time pubdate="pubdate"
-                                    datetime="#{comment[:created_at].strftime('%Y-%m-%d')}">
-                                        #{comment[:created_at].strftime('%A, %B %d, %Y')}
+                                    datetime="#{comment.created_at.strftime('%Y-%m-%d')}">
+                                        #{comment.created_at.strftime('%A, %B %d, %Y')}
                                     </time>
                                 </p>
                             </header>
-                            <p>#{comment[:comment]}</p>
+
+                            <p>#{comment.comment}</p>
                         </article>
+
                         <?r end; end ?>
                     </section>
 
-                    #{partial(:comments_form, :section_entry => entry[:id])}
+                    #{partial(:comments_form, :section_entry => entry.id)}
                     <?r end ?>
                 </div>
             </div>

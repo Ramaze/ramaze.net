@@ -4,7 +4,7 @@ Zen::Theme.add do |theme|
   theme.about  = 'New theme for the Ramaze website.'
   theme.url    = 'http://ramaze.net/'
 
-  # Set all directories
-  theme.template_dir = __DIR__
-  theme.partial_dir  = __DIR__('partials')
+  theme.templates              = __DIR__
+  theme.partials               = __DIR__('partials')
+  theme.default_template_group = 'pages'
 end

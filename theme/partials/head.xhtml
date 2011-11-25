@@ -16,7 +16,7 @@
 
 <title>
     <?r if !@page_title ?>
-    #{plugin(:settings, :get, :website_name).value}
+    #{get_setting(:website_name).value}
     <?r else ?>
     Ramaze &bull; #{@page_title}
     <?r end ?>

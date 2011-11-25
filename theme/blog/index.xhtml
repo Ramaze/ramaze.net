@@ -1,55 +1,58 @@
 <?r
-entries = plugin(:section_entries, :section => 'blog', :categories => true)
-entries = entries.sort_by { |e| e[:id] }.reverse
+entries = get_entries(
+  'blog',
+  :order      => :asc,
+  :categories => true,
+  :user       => true
+)
 ?>
 <!DOCTYPE html>
-<html lang="#{plugin(:settings, :get, :language).value}">
+<html lang="#{get_setting(:language).value}">
     <head>
         #{partial(:head)}
     </head>
     <body>
-        <!-- Global container for all elements -->
         <div class="container">
             <div id="container" class="row">
-                <!-- Top part of the website containing the title and navigation menu -->
                 <div id="top" class="grid_12">
                     #{partial(:header)}
                 </div>
 
-                <!-- Area containing all blog posts -->
                 <div id="content" class="grid_12">
-                    <section>
-                        <?r if entries.empty? ?>
-                        <p>No blog articles have been added yet.</p>
-                        <?r end ?>
-                        <?r entries.each do |entry| ?>
-                        <article>
-                            <header>
-                                <h1>
-                                    <a href="/blog/entry/#{entry[:slug]}">
-                                        #{entry[:title]}
-                                    </a>
-                                </h1>
-                                <p class="meta">
-                                    Written by #{entry[:user][:name]} on
-                                    <time pubdate="pubdate"
-                                    datetime="#{entry[:created_at].strftime('%Y-%m-%d')}">
-                                        #{entry[:created_at].strftime('%A, %B %d, %Y')}
-                                    </time>
-                                </p>
-                            </header>
+                    <?r if entries.empty? ?>
 
-                            #{entry[:fields][:body]}
+                    <p>No blog articles have been added yet.</p>
 
-                            <footer>
-                                <p>
-                                    Posted in:
-                                    #{entry[:categories].map { |c| c[:name] }.join(', ') }
-                                </p>
-                            </footer>
-                        </article>
-                        <?r end ?>
-                    </section>
+                    <?r end ?>
+
+                    <?r entries.each do |entry| ?>
+                    <article>
+                        <header>
+                            <h1>
+                                <a href="/blog/entry/#{entry.slug}">
+                                    #{entry.title}
+                                </a>
+                            </h1>
+                            <p class="meta">
+                                Written by #{entry.user.name} on
+                                <time pubdate="pubdate"
+                                datetime="#{entry.created_at.strftime('%Y-%m-%d')}">
+                                    #{entry.created_at.strftime('%A, %B %d, %Y')}
+                                </time>
+                            </p>
+                        </header>
+
+                        #{entry.fields[:body]}
+
+                        <footer>
+                            <p>
+                                Posted in: #{entry.categories.map { |c|
+                                  c.name
+                                }.join(', ') }
+                            </p>
+                        </footer>
+                    </article>
+                    <?r end ?>
                 </div>
             </div>
 

@@ -1,39 +1,39 @@
 <?r
-entry = plugin(:section_entries, :section => 'pages', :entry => @request_uri[2])
+entry = get_entry(@request_uri[2])
+
 show_404 if !entry
 ?>
 <!DOCTYPE html>
-<html lang="#{plugin(:settings, :get, :language).value}">
+<html lang="#{get_setting(:language).value}">
     <head>
-        #{partial(:head, :page_title => entry[:title])}
+        #{partial(:head, :page_title => entry.title)}
     </head>
-    <body id="#{entry[:fields][:'css-id']}">
-        <!-- Global container for all elements -->
+    <body id="#{entry.fields[:'css-id']}">
         <div class="container">
             <div id="container" class="row">
-                <!-- Top part of the website containing the title and navigation menu -->
                 <div id="top" class="grid_12">
                     #{partial(:header)}
                 </div>
 
-                <!-- Page banner, contains a short description and an image -->
                 <div id="banner" class="grid_12">
-                    #{entry[:fields][:body]}
+                    #{entry.fields[:body]}
                 </div>
 
-                <!-- Box with a set of features of Ramaze -->
                 <div id="features" class="grid_12">
                     <article class="grid_6">
-                        #{entry[:fields][:'top-left']}
+                        #{entry.fields[:'top-left']}
                     </article>
+
                     <article class="grid_6 last">
-                        #{entry[:fields][:'top-right']}
+                        #{entry.fields[:'top-right']}
                     </article>
+
                     <article class="grid_6">
-                        #{entry[:fields][:'bottom-left']}
+                        #{entry.fields[:'bottom-left']}
                     </article>
+
                     <article class="grid_6 last">
-                        #{entry[:fields][:'bottom-right']}
+                        #{entry.fields[:'bottom-right']}
                     </article>
                 </div>
             </div>
