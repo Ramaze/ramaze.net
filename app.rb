@@ -1,8 +1,5 @@
 require 'zen'
-
-Ramaze.setup(:verbose => false) do
-  gem 'rdiscount', ['~> 1.6.8']
-end
+require 'rdiscount'
 
 # Load the configuration files
 require __DIR__('config/config')
