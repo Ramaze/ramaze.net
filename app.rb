@@ -1,5 +1,5 @@
 require 'zen'
-require 'rdiscount'
+require 'redcarpet'
 
 # Load the configuration files
 require __DIR__('config/config')
@@ -11,6 +11,5 @@ require __DIR__('config/database')
 require __DIR__('config/routes')
 
 require __DIR__('theme/ramaze')
-require __DIR__('markup')
 
 Zen.start
