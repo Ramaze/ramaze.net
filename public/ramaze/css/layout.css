@@ -77,12 +77,12 @@
 
 #home #banner
 {
-    background: #fff url('../images/home.png') no-repeat 440px -5px; */
+    background: #fff url('/ramaze/images/home.png') no-repeat 440px -5px; */
 }
 
 #community #banner
 {
-    background: #fff url('../images/community.png') no-repeat 440px -5px;
+    background: #fff url('/ramaze/images/community.png') no-repeat 440px -5px;
 }
 
     #banner p

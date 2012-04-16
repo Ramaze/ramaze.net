@@ -6,7 +6,7 @@
  */
 body
 {
-    background:  url('../images/bg.png') repeat top left;
+    background:  url('/ramaze/images/bg.png') repeat top left;
     border-top:  5px solid #444;
     color:       #444;
     font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, sans-serif;
