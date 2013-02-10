@@ -4,7 +4,7 @@ task :yard => [:clean, :compile] do
   destination = File.expand_path('../../output/documentation', __FILE__)
   innate      = 'git://github.com/Ramaze/innate.git'
   ramaze      = 'git://github.com/Ramaze/ramaze.git'
-  innate_dir  = File.join(temp, 'innate')
+  innate_dir  = File.join(temp, 'innate/lib')
   ramaze_dir  = File.join(temp, 'ramaze')
   doc_dir     = File.join(ramaze_dir, 'doc')
 
