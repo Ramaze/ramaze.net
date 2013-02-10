@@ -19,4 +19,6 @@ task :yard => [:clean, :compile] do
   sh('bundle install')
   sh("rake yard[#{innate_dir}]")
   sh("mv #{doc_dir} #{destination}")
+
+  Dir.chdir(File.expand_path('../../', __FILE__))
 end
