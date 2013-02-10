@@ -1,0 +1,31 @@
+@import 'variables';
+
+/* Page banner that contains a quick introduction and a screenshot */
+#banner
+{
+    height: 250px;
+    margin-bottom: 20px;
+}
+
+#home #banner
+{
+    background: $home_banner;
+}
+
+#community #banner
+{
+    background: $community_banner;
+}
+
+#banner
+{
+    p
+    {
+        width: 400px;
+    }
+
+    .CodeRay
+    {
+        width: 400px;
+    }
+}

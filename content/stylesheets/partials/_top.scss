@@ -1,0 +1,49 @@
+/* Top part of the website, contains the title and the navigation menu */
+#top
+{
+    background: #E33F1E;
+    height: 70px;
+    margin-bottom: 20px;
+    padding: 0px 10px;
+
+    header h1
+    {
+        color: #fff;
+        font-size: 38px;
+        margin: 10px 0px 0px 0px;
+        padding: 0px;
+    }
+
+    nav ul
+    {
+        float: right;
+        margin-right: 15px;
+
+        li
+        {
+            float: left;
+            font-size: 16px;
+            list-style-type: none;
+            margin-right: 10px;
+
+            a
+            {
+                color: #fff;
+                display: block;
+                height: 45px;
+                padding: 25px 10px 0px 10px;
+                text-decoration: none;
+            }
+
+            a:hover
+            {
+                background: #D43919;
+            }
+        }
+
+        li:last-child
+        {
+            margin-right: 0px;
+        }
+    }
+}

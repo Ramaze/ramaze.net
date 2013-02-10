@@ -1,0 +1,21 @@
+<meta charset="utf-8" />
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="/stylesheets/application.css" />
+
+<link rel="canonical" href="<%= @canonical ? @canonical : config[:base_url] %>" />
+
+<% if @keywords %>
+<meta name="keywords" content="<%= @keywords.join(',') %>" />
+<% end %>
+
+<% if @description %>
+<meta name="description" content="<%= @description.strip %>" />
+<% end %>
+
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<title><%= @page_title ? "Ramaze &bull; #@page_title" : config[:title] %></title>

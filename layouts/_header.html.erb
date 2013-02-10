@@ -1,0 +1,42 @@
+<header class="grid_3">
+    <h1>Ramaze</h1>
+</header>
+
+<nav class="grid_9 last">
+    <ul>
+        <li>
+            <%= link_to('Home', config[:base_url], :title => 'Home') %>
+        </li>
+        <li>
+            <%= link_to(
+                'Documentation',
+                config[:docs_url],
+                :title => 'Documentation'
+            ) %>
+        </li>
+        <li>
+            <%= link_to(
+              'Wiki',
+              'https://github.com/Ramaze/ramaze/wiki',
+              :title => 'Wiki'
+            ) %>
+        </li>
+        <li>
+            <%= link_to(
+                'Community',
+                "#{config[:base_url].chomp('/')}/community",
+                :title => 'Community'
+            ) %>
+        </li>
+        <li>
+            <%= link_to(
+                'GitHub',
+                'https://github.com/ramaze/ramaze',
+                :title => 'GitHub'
+            ) %>
+        </li>
+        <li>
+            <%= link_to('Blog', config[:blog_url], :title => 'Blog') %>
+        </li>
+    </ul>
+</nav>

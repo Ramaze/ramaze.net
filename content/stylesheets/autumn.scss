@@ -1,0 +1,69 @@
+@import 'partials/variables';
+
+.CodeRay
+{
+    .code
+    {
+        background: $code_background;
+        color: $code_color;
+        font-family: $code_font;
+        font-size: 13px;
+        margin-bottom: 20px;
+        overflow: auto;
+        padding: 10px;
+    }
+
+    .keyword
+    {
+        color: $keyword;
+    }
+
+    .function
+    {
+        color: $function;
+    }
+
+    .instance-variable, .class-variable
+    {
+        color: $ivar;
+    }
+
+    .symbol
+    {
+        color: $symbol;
+    }
+
+    .string
+    {
+        color: $string;
+    }
+
+    .float, .integer
+    {
+        color: $number;
+    }
+
+    .comment
+    {
+        color: $comment;
+    }
+
+    .regexp
+    {
+        color: $regexp;
+    }
+
+    .error
+    {
+        background: $error;
+        color: #fff;
+    }
+}
+
+p code,
+li code
+{
+    background: #eee;
+    border: 1px solid #ccc;
+    padding: 0px 2px;
+}

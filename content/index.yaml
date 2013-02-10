@@ -1,0 +1,40 @@
+---
+keywords:
+  - ramaze
+  - template engine
+  - adapter
+  - ruby
+
+description: >
+  Ramaze is a very simple and straight-forward web-framework.
+
+body_id: home
+
+top_left:
+  title: ORMs
+  content: >
+    Ramaze works with any ORM and database toolkit.  Sequel, Datamapper or
+    M4DBI; the choice is all yours. If there is a database toolkit that somehow
+    doesn't work feel free to report an issue and it will be fixed.
+
+top_right:
+  title: Template Engines
+  content: >
+    There are <em>a lot</em> of template engines available for Ruby. Tenjin,
+    Liquid, ERB and so on. Just like ORMs Ramaze has support for a wide range
+    of template engines and if your engine isn't supported it's very easy to
+    create an adapter for it.
+
+bottom_left:
+  title: Rubies
+  content: >
+    Ramaze can run on MRI, 1.9, Rubinus and JRuby. Odds are that if your Ruby
+    installation works in a similar way such as MRI and 1.9 it will be able to
+    run Ramaze.
+
+bottom_right:
+  title: Adapters
+  content: >
+    Thin, Unicorn or Passenger, as long as your webserver/adapter supports Rack
+    it will be able to run Ramaze just fine. Ramaze also comes with WEBRick to
+    make the development process even easier.

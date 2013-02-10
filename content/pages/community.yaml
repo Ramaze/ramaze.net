@@ -1,0 +1,43 @@
+---
+keywords:
+  - community
+  - friendly
+  - ramaze
+  - mailing list
+
+description: >
+  The Ramaze community is a friendly group of people that are always willing to
+  help.
+
+body_id: community
+
+top_left:
+  title: Mailing List
+  content: >
+    Ramaze used Google Groups to host its
+    <a href="https://groups.google.com/forum/#!forum/ramaze">mailing list</a>.
+    The mailing list is the main source of answers for almost all your
+    questions and usually it doesn't take too long before you'll get a reply
+    from one of the members.
+
+top_right:
+  title: IRC
+  content: >
+    Ramaze has its own IRC channel, #ramaze, on Freenode. The IRC channel is
+    perfect if you're in a hurry and need an answer quickly or just want to
+    chat with other Ramaze users.
+
+bottom_left:
+  title: GitHub
+  content: >
+    GitHub is used to host the source code of Ramaze as well as for the issue
+    tracker. Our GitHub account is
+    <a href="https://github.com/ramaze/ramaze">Ramaze</a>, feel free to fork
+    the project and submit any additions or patches as a pull request.
+
+bottom_right:
+  title: Private Email
+  content: >
+    Although it's recommended to use the mailing list, most of our members
+    don't mind getting a personal Email. As long as it's properly formatted
+    we'll do our best to help you with your problem.

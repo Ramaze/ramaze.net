@@ -1,0 +1,37 @@
+@import 'reset';
+@import 'grid';
+@import 'autumn';
+@import 'partials/text';
+@import 'partials/lists';
+@import 'partials/top';
+@import 'partials/banner';
+@import 'partials/features';
+@import 'partials/articles';
+
+#container
+{
+    margin: 20px auto;
+    width: 940px;
+}
+
+#banner,
+#content,
+#features
+{
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 898px;
+}
+
+/* Footer at the bottom of the page */
+#footer
+{
+    text-align: center;
+
+    p
+    {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+}

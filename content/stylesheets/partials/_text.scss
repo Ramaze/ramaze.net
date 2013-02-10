@@ -1,0 +1,56 @@
+@import 'variables';
+
+body
+{
+    background: $background_image;
+    border-top: 5px solid #444;
+    color: $text;
+    font-family: $font;
+    font-size: 14px;
+}
+
+p
+{
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 20px;
+}
+
+a
+{
+    color: #444;
+}
+
+
+
+a:hover, h1 a:hover
+{
+    color: #E33F1E;
+}
+
+h1, h2, h3
+{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+h1
+{
+    font-size: 28px;
+}
+
+h2
+{
+    font-size: 22px;
+}
+
+h3
+{
+    font-size: 20px;
+}
+
+h1 a
+{
+    color: #444;
+    text-decoration: none;
+}

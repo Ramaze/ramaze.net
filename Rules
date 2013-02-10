@@ -1,0 +1,84 @@
+# Configuration
+
+redcarpet_options = {
+  :options  => {
+    :tables             => true,
+    :fenced_code_blocks => true,
+    :strikethrough      => true
+  }
+}
+
+partials = ['_head', '_header', '_footer']
+layouts  = ['default', 'home', 'blog', 'entry']
+pages    = ['/', '/pages/*']
+
+compile '/stylesheets/*' do
+  filter :sass, :syntax => :scss, :style => :compressed
+end
+
+compile '/404' do
+  filter :redcarpet, redcarpet_options
+  layout 'simple'
+end
+
+pages.each do |path|
+  compile path do
+    filter :redcarpet, redcarpet_options
+    filter :erb
+    filter :colorize_syntax
+    layout 'default'
+  end
+end
+
+compile '/blog' do
+  filter :redcarpet, redcarpet_options
+  filter :erb
+  filter :colorize_syntax
+  layout 'blog'
+end
+
+compile '/blog/entry/*' do
+  filter :redcarpet, redcarpet_options
+  filter :erb
+  filter :colorize_syntax
+  layout 'entry'
+end
+
+compile '*' do
+  nil
+end
+
+# Routes
+
+route '/stylesheets/*' do
+  item.identifier.chop + '.css'
+end
+
+route '/404' do
+  '/404.html'
+end
+
+# Rewrites /pages/community.html to /community/index.html.
+route '/pages/*' do
+  "/#{File.basename(item.identifier)}/index.html"
+end
+
+route '*' do
+  if item.binary?
+    item.identifier.chop + '.' + item[:extension]
+  else
+    item.identifier + 'index.html'
+  end
+end
+
+# Layouts
+
+layouts.each do |file|
+  layout file, :erb
+end
+
+partials.each do |file|
+  layout file, :erb
+end
+
+# vim: set ft=ruby:

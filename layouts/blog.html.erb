@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%=
+        render '_head',
+          :canonical   => config[:blog_url],
+          :page_title  => item[:title],
+          :keywords    => item[:keywords],
+          :description => item[:description]
+        %>
+    </head>
+    <body>
+        <div class="container">
+            <div id="container" class="row">
+                <div id="top" class="grid_12">
+                    <%= render '_header' %>
+                </div>
+
+                <div id="content" class="grid_12">
+                    <% sorted_articles.each do |article| %>
+                    <% created_at = attribute_to_time(article[:created_at]) %>
+                    <article>
+                        <header>
+                            <h1>
+                                <%= link_to(
+                                  article[:title],
+                                  article,
+                                  :title => article[:title]
+                                ) %>
+                            </h1>
+
+                            <p class="meta">
+                                <time pubdate="pubdate"
+                                datetime="<%= created_at.strftime('%Y-%m-%d') %>">
+                                    <%= created_at.strftime('%A, %B %d, %Y') %>
+                                </time>
+                            </p>
+                        </header>
+
+                        <%= article.compiled_content %>
+                    </article>
+                    <% end %>
+                </div>
+            </div>
+
+            <%= render '_footer' %>
+        </div>
+    </body>
+</html>

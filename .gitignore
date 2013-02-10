@@ -1,11 +1,4 @@
-.DS_Store
-
-# Ignore all configuration files
-config/config.rb
-config/database.rb
-
-# Ignore all log files
-log/database/dev/*.log
-log/database/live/*.log
-log/server/dev/*.log
-log/server/live/*.log
+crash.log
+tmp
+output
+.sass-cache

@@ -1,0 +1,25 @@
+text_extensions   : ['scss', 'css', 'js', 'md', 'html', 'erb']
+output_dir        : output
+index_filenames   : ['index.html']
+enable_output_diff: false
+
+prune:
+  auto_prune: true
+  exclude   : ['.git']
+
+data_sources:
+  -
+    type                        : filesystem_unified
+    items_root                  : /
+    layouts_root                : /
+    allow_periods_in_identifiers: false
+
+title   : Ramaze &bull; The Web Framework for Rubyists
+base_url: http://ramaze.net
+blog_url: http://ramaze.net/blog/
+docs_url: http://ramaze.net/documentation/index.html
+
+deploy:
+  default:
+    kind: rsync
+    dst : blackbird.rubyists.com:~/g/ramaze.net/public"

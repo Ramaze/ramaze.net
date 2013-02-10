@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%=
+        render '_head',
+          :keywords    => item[:keywords],
+          :description => item[:description],
+          :canonical   => url_for(item),
+          :page_title  => item[:title]
+        %>
+    </head>
+    <body id="<%= item[:body_id] %>">
+        <div class="container">
+            <div id="container" class="row">
+                <div id="top" class="grid_12">
+                    <%= render '_header' %>
+                </div>
+
+                <div id="banner" class="grid_12">
+                    <%= yield %>
+                </div>
+
+                <div id="features" class="grid_12">
+                    <article class="grid_6">
+                        <header>
+                            <h1><%= item[:top_left][:title]%></h1>
+                        </header>
+
+                        <p><%= item[:top_left][:content] %></p>
+                    </article>
+
+                    <article class="grid_6 last">
+                        <header>
+                            <h1><%= item[:top_right][:title] %></h1>
+                        </header>
+
+                        <p><%= item[:top_right][:content] %></p>
+                    </article>
+
+                    <article class="grid_6">
+                        <header>
+                            <h1><%= item[:bottom_left][:title] %></h1>
+                        </header>
+
+                        <p><%= item[:bottom_left][:content] %></p>
+                    </article>
+
+                    <article class="grid_6 last">
+                        <header>
+                            <h1><%= item[:bottom_right][:title] %></h1>
+                        </header>
+
+                        <p><%= item[:bottom_right][:content] %></p>
+                    </article>
+                </div>
+            </div>
+
+            <%= render '_footer' %>
+        </div>
+    </body>
+</html>
