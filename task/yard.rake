@@ -16,6 +16,7 @@ task :yard => [:clean, :compile] do
 
   Dir.chdir(ramaze_dir)
 
+  sh('bundle install')
   sh("rake yard[#{innate_dir}]")
   sh("mv #{doc_dir} #{destination}")
 end
