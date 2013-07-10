@@ -1,4 +1,4 @@
-source :rubygems
+source "https://rubygems.org"
 
 gem 'builder'
 gem 'nanoc'
@@ -10,3 +10,5 @@ gem 'sass'
 gem 'mime-types'
 gem 'adsf'
 gem 'rake'
+gem 'yard'
+gem 'rdiscount'

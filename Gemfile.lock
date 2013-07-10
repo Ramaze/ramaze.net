@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     adsf (1.1.1)
       rack (>= 1.0.0)
@@ -14,9 +14,11 @@ GEM
     nokogiri (1.5.6)
     rack (1.5.2)
     rake (10.0.3)
+    rdiscount (2.1.6)
     redcarpet (2.2.2)
     sass (3.2.5)
     systemu (2.5.2)
+    yard (0.8.6.2)
 
 PLATFORMS
   ruby
@@ -29,6 +31,8 @@ DEPENDENCIES
   nanoc
   nokogiri
   rake
+  rdiscount
   redcarpet
   sass
   systemu
+  yard
