@@ -8,4 +8,4 @@ Installing and running Ramaze is as simple as the following commands:
     $ gem install ramaze
     $ ramaze create blog
     $ cd blog
-    $ ramaze start
+    $ rake ramaze:start
